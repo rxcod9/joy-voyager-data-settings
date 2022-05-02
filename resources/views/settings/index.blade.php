@@ -1,6 +1,6 @@
 @extends('voyager::master')
 
-@section('page_title', __('voyager::generic.viewing').' '.__('joy-voyager-user-settings::generic.user_settings'))
+@section('page_title', __('voyager::generic.viewing').' '.__('joy-voyager-data-settings::generic.data_settings'))
 
 @section('css')
     <style>
@@ -210,7 +210,7 @@
 
 @section('page_header')
     <h1 class="page-title">
-        <i class="voyager-settings"></i> {{ __('joy-voyager-user-settings::generic.user_settings') }} for User <a href="{{ route('voyager.users.show', $user->getKey()) }}">{{ $user->name ?? ($user->getKeyName() . '#' . $user->getKey()) }}</a>
+        <i class="voyager-settings"></i> {{ __('joy-voyager-data-settings::generic.data_settings') }} for {{ $dataType->getTranslatedAttribute('display_name_singular') }} <a href="{{ route('voyager.' . $dataType->slug . '.show', $dataTypeContent->getKey()) }}">{{ $dataTypeContent->name ?? ($dataTypeContent->getKeyName() . '#' . $dataTypeContent->getKey()) }}</a>
     </h1>
 @stop
 
@@ -220,16 +220,16 @@
         @if(config('voyager.show_dev_tips'))
         <div class="alert alert-info">
             <strong>{{ __('voyager::generic.how_to_use') }}:</strong>
-            <p>{{ __('voyager::settings.usage_help') }} <code>userSetting($user, 'group.key')</code></p>
+            <p>{{ __('voyager::settings.usage_help') }} <code>dataSetting($dataType, $dataTypeContent, 'group.key')</code></p>
         </div>
         @endif
     </div>
 
     <div class="page-content settings container-fluid">
-        <form action="{{ route('voyager.users.user-settings.update', $id) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('voyager.' . $dataType->slug . '.data-settings.update', $id) }}" method="POST" enctype="multipart/form-data">
             {{ method_field("PUT") }}
             {{ csrf_field() }}
-            <input type="hidden" name="user_setting_tab" class="user_setting_tab" value="{{ $active }}" />
+            <input type="hidden" name="data_setting_tab" class="data_setting_tab" value="{{ $active }}" />
             <div class="panel">
 
                 <div class="page-content settings container-fluid">
@@ -249,16 +249,16 @@
                             @php $setting = $group_settings[$key]; @endphp
                             <div class="panel-heading">
                                 <h3 class="panel-title">
-                                    {{ $settingType->display_name }} @if(config('voyager.show_dev_tips'))<code>userSetting($user, '{{ $settingType->key }}')</code>@endif
+                                    {{ $settingType->display_name }} @if(config('voyager.show_dev_tips'))<code>dataSetting($dataType, $dataTypeContent, '{{ $settingType->key }}')</code>@endif
                                 </h3>
                                 <div class="panel-actions">
-                                    <a href="{{ route('voyager.users.user-settings.move_up', [$id, $settingType->id]) }}">
+                                    <a href="{{ route('voyager.' . $dataType->slug . '.data-settings.move_up', [$id, $settingType->id]) }}">
                                         <i class="sort-icons voyager-sort-asc"></i>
                                     </a>
-                                    <a href="{{ route('voyager.users.user-settings.move_down', [$id, $settingType->id]) }}">
+                                    <a href="{{ route('voyager.' . $dataType->slug . '.data-settings.move_down', [$id, $settingType->id]) }}">
                                         <i class="sort-icons voyager-sort-desc"></i>
                                     </a>
-                                    @can('delete', Voyager::model('UserSetting'))
+                                    @can('delete', Voyager::model('DataSetting'))
                                     <i class="voyager-trash"
                                        data-id="{{ $settingType->id }}"
                                        data-display-key="{{ $settingType->key }}"
@@ -282,7 +282,7 @@
                                     @elseif($settingType->type == "image" || $settingType->type == "file")
                                         @if(isset( optional($setting)->value ) && !empty( optional($setting)->value ) && Storage::disk(config('voyager.storage.disk'))->exists(optional($setting)->value))
                                             <div class="img_settings_container">
-                                                <a href="{{ route('voyager.users.user-settings.delete_value', [$id, $settingType->id]) }}" class="voyager-x delete_value"></a>
+                                                <a href="{{ route('voyager.' . $dataType->slug . '.data-settings.delete_value', [$id, $settingType->id]) }}" class="voyager-x delete_value"></a>
                                                 <img src="{{ Storage::disk(config('voyager.storage.disk'))->url(optional($setting)->value) }}" style="width:200px; height:auto; padding:2px; border:1px solid #ddd; margin-bottom:10px;">
                                             </div>
                                             <div class="clearfix"></div>
@@ -293,7 +293,7 @@
                                                     <a class="fileType" target="_blank" href="{{ Storage::disk(config('voyager.storage.disk'))->url($file->download_link) }}">
                                                       {{ $file->original_name }}
                                                     </a>
-                                                    <a href="{{ route('voyager.users.user-settings.delete_value', [$id, $settingType->id]) }}" class="voyager-x delete_value"></a>
+                                                    <a href="{{ route('voyager.' . $dataType->slug . '.data-settings.delete_value', [$id, $settingType->id]) }}" class="voyager-x delete_value"></a>
                                                  </div>
                                                 @endforeach
                                             @endif
@@ -360,16 +360,16 @@
 
         <div style="clear:both"></div>
 
-        @can('add', Voyager::model('UserSetting'))
+        @can('add', Voyager::model('DataSetting'))
         <div class="panel" style="margin-top:10px;">
             <div class="panel-heading new-setting">
                 <hr>
                 <h3 class="panel-title"><i class="voyager-plus"></i> {{ __('voyager::settings.new') }}</h3>
             </div>
             <div class="panel-body">
-                <form action="{{ route('voyager.users.user-settings.store', $id) }}" method="POST">
+                <form action="{{ route('voyager.' . $dataType->slug . '.data-settings.store', $id) }}" method="POST">
                     {{ csrf_field() }}
-                    <input type="hidden" name="user_setting_tab" class="user_setting_tab" value="{{ $active }}" />
+                    <input type="hidden" name="data_setting_tab" class="data_setting_tab" value="{{ $active }}" />
                     <div class="col-md-3">
                         <label for="display_name">{{ __('voyager::generic.name') }}</label>
                         <input type="text" class="form-control" name="display_name" placeholder="{{ __('voyager::settings.help_name') }}" required="required">
@@ -424,7 +424,7 @@
         @endcan
     </div>
 
-    @can('delete', Voyager::model('UserSetting'))
+    @can('delete', Voyager::model('DataSetting'))
     <div class="modal modal-danger fade" tabindex="-1" id="delete_modal" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -463,13 +463,13 @@
                 }
             });
 
-            @can('delete', Voyager::model('UserSetting'))
+            @can('delete', Voyager::model('DataSetting'))
             $('.panel-actions .voyager-trash').click(function () {
                 var display = $(this).data('display-name') + '/' + $(this).data('display-key');
 
                 $('#delete_setting_title').text(display);
 
-                $('#delete_form')[0].action = '{{ route('voyager.users.user-settings.delete', [ 'id' => $id, 'sid' => '__id' ]) }}'.replace('__id', $(this).data('id'));
+                $('#delete_form')[0].action = '{{ route('voyager.' . $dataType->slug . '.data-settings.delete', [ 'id' => $id, 'sid' => '__id' ]) }}'.replace('__id', $(this).data('id'));
                 $('#delete_modal').modal('show');
             });
             @endcan
@@ -477,7 +477,7 @@
             $('.toggleswitch').bootstrapToggle();
 
             $('[data-toggle="tab"]').click(function() {
-                $(".user_setting_tab").val($(this).html());
+                $(".data_setting_tab").val($(this).html());
             });
 
             $('.delete_value').click(function(e) {

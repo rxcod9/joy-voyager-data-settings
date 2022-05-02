@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'successfully_saved_user_settings'   => 'UserSettings saved successfully',
-    'user_settings'   => 'User Settings',
-    'user_settings_btn'   => 'Settings',
+    'successfully_saved_data_settings'   => 'DataSettings saved successfully',
+    'data_settings'   => 'Data Settings',
+    'data_settings_btn'   => 'Settings',
 ];

@@ -1,7 +1,8 @@
 <?php
 
-namespace Joy\VoyagerUserSettings\Http\Traits;
+namespace Joy\VoyagerDataSettings\Http\Traits;
 
+use Illuminate\Http\Request;
 use TCG\Voyager\Facades\Voyager;
 
 trait MoveUpAction
@@ -14,22 +15,26 @@ trait MoveUpAction
     //              | |_) |
     //              |____/
     //
-    //      UserSettings DataTable our Data Type (B)READ
+    //      DataSettings DataTable our Data Type (B)READ
     //
     //****************************************
 
-    public function move_up($id, $sid)
+    public function move_up($id, $sid, Request $request)
     {
+        $slug = $this->getSlug($request);
+        $dataType = Voyager::model('DataType')->whereSlug($slug)->firstOrFail();
+        $dataTypeContent = getDataTypeContent($dataType, $id);
+        // Check permission
+        $this->authorize('edit', $dataTypeContent);
+
         // Check permission
         $this->authorize(
             'edit',
-            Voyager::model('UserSetting'),
+            Voyager::model('DataSetting'),
         );
 
-        $user = Voyager::model('User')->findOrFail($id);
-
-        $setting     = Voyager::model('UserSetting')->whereUserId((int) $id)->whereUserSettingTypeId((int) $sid)->firstOrFail();
-        $settingType = $setting->userSettingType;
+        $setting     = Voyager::model('DataSetting')->whereDataId((int) $id)->whereDataSettingTypeId((int) $sid)->firstOrFail();
+        $settingType = $setting->dataSettingType;
 
         // Check permission
         $this->authorize(
@@ -38,9 +43,10 @@ trait MoveUpAction
         );
 
         $swapOrder           = $settingType->order;
-        $previousSettingType = Voyager::model('UserSettingType')
+        $previousSettingType = Voyager::model('DataSettingType')
+            ->whereDataTypeSlug($slug)
             ->where('order', '<', $swapOrder)
-            ->where('group', $setting->userSettingType->group)
+            ->where('group', $setting->dataSettingType->group)
             ->orderBy('order', 'DESC')->first();
         $data = [
             'message'    => __('voyager::settings.already_at_top'),
@@ -59,7 +65,7 @@ trait MoveUpAction
             ];
         }
 
-        request()->session()->flash('user_setting_tab', $settingType->group);
+        request()->session()->flash('data_setting_tab', $settingType->group);
 
         return back()->with($data);
     }

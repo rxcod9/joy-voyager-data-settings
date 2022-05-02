@@ -1,9 +1,9 @@
 <?php
 
-namespace Joy\VoyagerUserSettings\Tests;
+namespace Joy\VoyagerDataSettings\Tests;
 
 use Dotenv\Dotenv;
-use Joy\VoyagerUserSettings\VoyagerUserSettingsServiceProvider;
+use Joy\VoyagerDataSettings\VoyagerDataSettingsServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
@@ -36,7 +36,7 @@ abstract class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         $serviceProviders = [
-            VoyagerUserSettingsServiceProvider::class,
+            VoyagerDataSettingsServiceProvider::class,
         ];
 
         return $serviceProviders;

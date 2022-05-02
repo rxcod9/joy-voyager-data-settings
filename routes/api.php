@@ -10,14 +10,14 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 |
 | This file is where you may override any of the routes that are included
-| with VoyagerUserSettings.
+| with VoyagerDataSettings.
 |
 */
 
-Route::group(['as' => 'joy-voyager-user-settings.'], function () {
+Route::group(['as' => 'joy-voyager-data-settings.'], function () {
     // event(new Routing()); @deprecated
 
-    $namespacePrefix = '\\' . config('joy-voyager-user-settings.controllers.namespace') . '\\';
+    $namespacePrefix = '\\' . config('joy-voyager-data-settings.controllers.namespace') . '\\';
 
     // event(new RoutingAfter()); @deprecated
 });

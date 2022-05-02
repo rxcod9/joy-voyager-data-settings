@@ -1,23 +1,33 @@
 <?php
 
-namespace Joy\VoyagerUserSettings\Database\Seeders;
+namespace Joy\VoyagerDataSettings\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Joy\VoyagerUserSettings\Models\UserSetting;
-use Joy\VoyagerUserSettings\Models\UserSettingType;
+use Joy\VoyagerDataSettings\Models\DataSetting;
+use Joy\VoyagerDataSettings\Models\DataSettingType;
 use TCG\Voyager\Facades\Voyager;
 
-class UserSettingsTableSeeder extends Seeder
+class DataSettingsTableSeeder extends Seeder
 {
     /**
      * Auto generated seed file.
      */
     public function run()
     {
-        $setting = $this->findSettingType('locale.timezone');
-        if (!$setting->exists) {
-            $setting->fill([
-                'display_name' => __('joy-voyager-user-settings::seeders.settings.timezone'),
+        foreach (Voyager::model('DataType')::all() as $dataType) {
+            $this->seedDataSettings($dataType->slug);
+        }
+    }
+
+    /**
+     * Seed data settings.
+     */
+    public function seedDataSettings($slug)
+    {
+        $settingType = $this->findSettingType($slug, 'locale.timezone');
+        if (!$settingType->exists) {
+            $settingType->fill([
+                'display_name' => __('joy-voyager-data-settings::seeders.settings.timezone'),
                 'type'         => 'select_dropdown',
                 'order'        => 1,
                 'group'        => 'Locale',
@@ -142,10 +152,10 @@ class UserSettingsTableSeeder extends Seeder
             ])->save();
         }
 
-        $setting = $this->findSettingType('locale.language');
-        if (!$setting->exists) {
-            $setting->fill([
-                'display_name' => __('joy-voyager-user-settings::seeders.settings.language'),
+        $settingType = $this->findSettingType($slug, 'locale.language');
+        if (!$settingType->exists) {
+            $settingType->fill([
+                'display_name' => __('joy-voyager-data-settings::seeders.settings.language'),
                 'type'         => 'select_dropdown',
                 'order'        => 2,
                 'group'        => 'Locale',
@@ -164,10 +174,10 @@ class UserSettingsTableSeeder extends Seeder
             ])->save();
         }
 
-        $setting = $this->findSettingType('locale.datetime_format');
-        if (!$setting->exists) {
-            $setting->fill([
-                'display_name' => __('joy-voyager-user-settings::seeders.settings.datetime_format'),
+        $settingType = $this->findSettingType($slug, 'locale.datetime_format');
+        if (!$settingType->exists) {
+            $settingType->fill([
+                'display_name' => __('joy-voyager-data-settings::seeders.settings.datetime_format'),
                 'type'         => 'select_dropdown',
                 'order'        => 3,
                 'group'        => 'Locale',
@@ -189,10 +199,10 @@ class UserSettingsTableSeeder extends Seeder
             ])->save();
         }
 
-        $setting = $this->findSettingType('locale.date_format');
-        if (!$setting->exists) {
-            $setting->fill([
-                'display_name' => __('joy-voyager-user-settings::seeders.settings.date_format'),
+        $settingType = $this->findSettingType($slug, 'locale.date_format');
+        if (!$settingType->exists) {
+            $settingType->fill([
+                'display_name' => __('joy-voyager-data-settings::seeders.settings.date_format'),
                 'type'         => 'select_dropdown',
                 'order'        => 4,
                 'group'        => 'Locale',
@@ -214,10 +224,10 @@ class UserSettingsTableSeeder extends Seeder
             ])->save();
         }
 
-        $setting = $this->findSettingType('theme.primary_color');
-        if (!$setting->exists) {
-            $setting->fill([
-                'display_name' => __('joy-voyager-user-settings::seeders.settings.primary_color'),
+        $settingType = $this->findSettingType($slug, 'theme.primary_color');
+        if (!$settingType->exists) {
+            $settingType->fill([
+                'display_name' => __('joy-voyager-data-settings::seeders.settings.primary_color'),
                 'details'      => '',
                 'type'         => 'text',
                 'order'        => 5,
@@ -225,10 +235,10 @@ class UserSettingsTableSeeder extends Seeder
             ])->save();
         }
 
-        $setting = $this->findSettingType('theme.secondary_color');
-        if (!$setting->exists) {
-            $setting->fill([
-                'display_name' => __('joy-voyager-user-settings::seeders.settings.secondary_color'),
+        $settingType = $this->findSettingType($slug, 'theme.secondary_color');
+        if (!$settingType->exists) {
+            $settingType->fill([
+                'display_name' => __('joy-voyager-data-settings::seeders.settings.secondary_color'),
                 'details'      => '',
                 'type'         => 'text',
                 'order'        => 6,
@@ -244,9 +254,12 @@ class UserSettingsTableSeeder extends Seeder
      *
      * @return [type] [description]
      */
-    protected function findSettingType($key)
+    protected function findSettingType($slug, $key)
     {
-        return UserSettingType::firstOrNew(['key' => $key]);
+        return DataSettingType::firstOrNew([
+            'data_type_slug' => $slug,
+            'key' => $key,
+        ]);
     }
 
     /**
@@ -258,6 +271,6 @@ class UserSettingsTableSeeder extends Seeder
      */
     protected function findSetting($key)
     {
-        return UserSetting::firstOrNew(['key' => $key]);
+        return DataSetting::firstOrNew(['key' => $key]);
     }
 }

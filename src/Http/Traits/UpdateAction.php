@@ -1,6 +1,6 @@
 <?php
 
-namespace Joy\VoyagerUserSettings\Http\Traits;
+namespace Joy\VoyagerDataSettings\Http\Traits;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -16,25 +16,29 @@ trait UpdateAction
     //              | |_) |
     //              |____/
     //
-    //      UserSettings DataTable our Data Type (B)READ
+    //      DataSettings DataTable our Data Type (B)READ
     //
     //****************************************
 
     public function update($id, Request $request)
     {
+        $slug = $this->getSlug($request);
+        $dataType = Voyager::model('DataType')->whereSlug($slug)->firstOrFail();
+        $dataTypeContent = getDataTypeContent($dataType, $id);
+        // Check permission
+        $this->authorize('edit', $dataTypeContent);
+
         // Check permission
         $this->authorize(
             'edit',
-            Voyager::model('UserSetting'),
+            Voyager::model('DataSetting'),
         );
 
-        Voyager::model('User')->findOrFail($id);
-
-        $settingTypes = Voyager::model('UserSettingType')->get();
-        $settings     = Voyager::model('UserSetting')->whereUserId($id)->get();
+        $settingTypes = Voyager::model('DataSettingType')->whereDataTypeSlug($slug)->get();
+        $settings     = Voyager::model('DataSetting')->whereDataId($id)->get();
 
         foreach ($settingTypes as $settingType) {
-            $content = $this->getContentBasedOnType($request, 'user_settings', (object) [
+            $content = $this->getContentBasedOnType($request, 'data_settings', (object) [
                 'type'  => $settingType->type,
                 'field' => str_replace('.', '_', $settingType->key),
                 'group' => $settingType->group,
@@ -53,17 +57,18 @@ trait UpdateAction
             $settingType->group = $request->input(str_replace('.', '_', $settingType->key) . '_group');
             $settingType->key   = implode('.', [Str::slug($settingType->group), $key]);
             // $settingType->value = $content;
+            $settingType->data_type_slug = $dataType->slug;
             $settingType->save();
 
-            $setting = Voyager::model('UserSetting')->firstOrNew([
-                'user_id'              => $id,
-                'user_setting_type_id' => $settingType->id,
+            $setting = Voyager::model('DataSetting')->firstOrNew([
+                'data_id'              => $id,
+                'data_setting_type_id' => $settingType->id,
             ]);
             $setting->value = $content;
             $setting->save();
         }
 
-        request()->flashOnly('user_setting_tab');
+        request()->flashOnly('data_setting_tab');
 
         return back()->with([
             'message'    => __('voyager::settings.successfully_saved'),

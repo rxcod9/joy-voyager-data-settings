@@ -6,7 +6,7 @@
     </include>
   </coverage>
   <testsuites>
-    <testsuite name="Joy VoyagerUserSettings Test Suite">
+    <testsuite name="Joy VoyagerDataSettings Test Suite">
       <directory>tests</directory>
     </testsuite>
   </testsuites>

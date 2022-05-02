@@ -1,7 +1,8 @@
 <?php
 
-namespace Joy\VoyagerUserSettings\Http\Traits;
+namespace Joy\VoyagerDataSettings\Http\Traits;
 
+use Illuminate\Http\Request;
 use TCG\Voyager\Facades\Voyager;
 
 trait IndexAction
@@ -14,29 +15,33 @@ trait IndexAction
     //              | |_) |
     //              |____/
     //
-    //      UserSettings DataTable our Data Type (B)READ
+    //      DataSettings DataTable our Data Type (B)READ
     //
     //****************************************
 
-    public function index($id)
+    public function index($id, Request $request)
     {
+        $slug = $this->getSlug($request);
+        $dataType = Voyager::model('DataType')->whereSlug($slug)->firstOrFail();
+        $dataTypeContent = getDataTypeContent($dataType, $id);
+        // Check permission
+        $this->authorize('browse', $dataTypeContent);
+
         // Check permission
         $this->authorize(
             'browse',
-            Voyager::model('UserSetting'),
+            Voyager::model('DataSetting'),
         );
 
-        $user = Voyager::model('User')->findOrFail($id);
-
-        $types        = Voyager::model('UserSettingType')->orderBy('order', 'ASC')->get();
-        $userSettings = Voyager::model('UserSetting')->whereUserId($id)->get();
+        $types        = Voyager::model('DataSettingType')->whereDataTypeSlug($slug)->orderBy('order', 'ASC')->get();
+        $dataSettings = Voyager::model('DataSetting')->whereDataId($id)->get();
 
         $settingTypes                                        = [];
         $settings                                            = [];
         $settingTypes[__('voyager::settings.group_general')] = [];
         $settings[__('voyager::settings.group_general')]     = [];
         foreach ($types as $d) {
-            $s = $userSettings->where('user_setting_type_id', $d->id)->first();
+            $s = $dataSettings->where('data_setting_type_id', $d->id)->first();
             if ($d->group == '' || $d->group == __('voyager::settings.group_general')) {
                 $settingTypes[__('voyager::settings.group_general')][] = $d;
                 $settings[__('voyager::settings.group_general')][]     = $s;
@@ -52,7 +57,7 @@ trait IndexAction
             unset($settings[__('voyager::settings.group_general')]);
         }
 
-        $groups_data = Voyager::model('UserSettingType')->select('group')->distinct()->get();
+        $groups_data = Voyager::model('DataSettingType')->whereDataTypeSlug($slug)->select('group')->distinct()->get();
         $groups      = [];
         foreach ($groups_data as $group) {
             if ($group->group != '') {
@@ -60,11 +65,11 @@ trait IndexAction
             }
         }
 
-        $active = (request()->session()->has('user_setting_tab')) ? request()->session()->get('user_setting_tab') : old('user_setting_tab', key($settings));
+        $active = (request()->session()->has('data_setting_tab')) ? request()->session()->get('data_setting_tab') : old('data_setting_tab', key($settings));
 
         return Voyager::view(
-            'joy-voyager-user-settings::settings.index',
-            compact('settingTypes', 'settings', 'groups', 'active', 'id', 'user')
+            'joy-voyager-data-settings::settings.index',
+            compact('settingTypes', 'settings', 'groups', 'active', 'id', 'dataType', 'dataTypeContent')
         );
     }
 }

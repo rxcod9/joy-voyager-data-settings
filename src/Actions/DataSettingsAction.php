@@ -1,15 +1,15 @@
 <?php
 
-namespace Joy\VoyagerUserSettings\Actions;
+namespace Joy\VoyagerDataSettings\Actions;
 
 use Illuminate\Http\Request;
 use TCG\Voyager\Actions\AbstractAction;
 
-class UserSettingsAction extends AbstractAction
+class DataSettingsAction extends AbstractAction
 {
     public function getTitle()
     {
-        return __('joy-voyager-user-settings::generic.user_settings_btn');
+        return __('joy-voyager-data-settings::generic.data_settings_btn');
     }
 
     public function getIcon()
@@ -25,7 +25,7 @@ class UserSettingsAction extends AbstractAction
     public function getAttributes()
     {
         return [
-            'id'     => 'user_settings_btn',
+            'id'     => 'data_settings_btn',
             'class'  => 'btn btn-sm btn-primary pull-right',
             'target' => '_blank',
         ];
@@ -33,13 +33,20 @@ class UserSettingsAction extends AbstractAction
 
     public function getDefaultRoute()
     {
-        return route('voyager.users.user-settings.index', $this->data->getKey());
+        return route('voyager.' . $this->dataType->slug . '.data-settings.index', $this->data->getKey());
     }
 
     public function shouldActionDisplayOnDataType()
     {
-        return config('joy-voyager-user-settings.enabled', true) !== false
-            && $this->dataType->slug === 'users';
+        return config('joy-voyager-data-type-settings.enabled', true) !== false
+            && isInPatterns(
+                $this->dataType->slug,
+                config('joy-voyager-data-type-settings.allowed_slugs', ['*'])
+            )
+            && !isInPatterns(
+                $this->dataType->slug,
+                config('joy-voyager-data-type-settings.not_allowed_slugs', [])
+            );
     }
 
     protected function getSlug(Request $request)

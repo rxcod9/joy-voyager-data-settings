@@ -1,24 +1,24 @@
 <?php
 
-namespace Joy\VoyagerUserSettings\Console\Commands;
+namespace Joy\VoyagerDataSettings\Console\Commands;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
-class UserSettings extends Command
+class DataSettings extends Command
 {
-    protected $name = 'joy-user-settings';
+    protected $name = 'joy-data-settings';
 
-    protected $description = 'Joy Voyager UserSettingser';
+    protected $description = 'Joy Voyager DataSettings';
 
     public function handle()
     {
-        $this->output->title('Starting user-settings');
+        $this->output->title('Starting data-settings');
 
         // Your magic here
 
-        $this->output->success('UserSettings successful');
+        $this->output->success('DataSettings successful');
     }
 
     /**
@@ -46,7 +46,7 @@ class UserSettings extends Command
                 'o',
                 InputOption::VALUE_OPTIONAL,
                 'The option1 description',
-                config('joy-voyager-user-settings.option1')
+                config('joy-voyager-data-settings.option1')
             ],
         ];
     }

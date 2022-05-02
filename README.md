@@ -1,14 +1,14 @@
-# Joy VoyagerUserSettings
+# Joy VoyagerDataSettings
 
-This [Laravel](https://laravel.com/)/[Voyager](https://voyager.devdojo.com/) module adds VoyagerUserSettings support to Voyager.
+This [Laravel](https://laravel.com/)/[Voyager](https://voyager.devdojo.com/) module adds VoyagerDataSettings support to Voyager.
 
 By 🐼 [Ramakant Gangwar](https://github.com/rxcod9).
 
-[![Screenshot](https://raw.githubusercontent.com/rxcod9/joy-voyager-user-settings/main/cover.jpg)](https://joy-voyager.herokuapp.com/)
+[![Screenshot](https://raw.githubusercontent.com/rxcod9/joy-voyager-data-settings/main/cover.jpg)](https://joy-voyager.herokuapp.com/)
 
-[![Latest Version](https://img.shields.io/github/v/release/rxcod9/joy-voyager-user-settings?style=flat-square)](https://github.com/rxcod9/joy-voyager-user-settings/releases)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/rxcod9/joy-voyager-user-settings/run-tests?label=tests)
-[![Total Downloads](https://img.shields.io/packagist/dt/joy/voyager-user-settings.svg?style=flat-square)](https://packagist.org/packages/joy/voyager-user-settings)
+[![Latest Version](https://img.shields.io/github/v/release/rxcod9/joy-voyager-data-settings?style=flat-square)](https://github.com/rxcod9/joy-voyager-data-settings/releases)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/rxcod9/joy-voyager-data-settings/run-tests?label=tests)
+[![Total Downloads](https://img.shields.io/packagist/dt/joy/voyager-data-settings.svg?style=flat-square)](https://packagist.org/packages/joy/voyager-data-settings)
 
 ---
 
@@ -24,18 +24,18 @@ By 🐼 [Ramakant Gangwar](https://github.com/rxcod9).
 
 ```bash
 # 1. Require this Package in your fresh Laravel/Voyager project
-composer require joy/voyager-user-settings
+composer require joy/voyager-data-settings
 
 # 2. Publish
-php artisan vendor:publish --provider="Joy\VoyagerUserSettings\VoyagerUserSettingsServiceProvider" --force
+php artisan vendor:publish --provider="Joy\VoyagerDataSettings\VoyagerDataSettingsServiceProvider" --force
 # 3. Migrate
 php artisan migrate
 # 4. Generate Permissions
-php artisan db:seed --class="\Joy\VoyagerUserSettings\Database\Seeders\UserSettingsPermissionsTableSeeder"
+php artisan db:seed --class="\Joy\VoyagerDataSettings\Database\Seeders\DataSettingsPermissionsTableSeeder"
 # 5. Attach Permissions with roles
 php artisan db:seed --class=PermissionRoleTableSeeder
-# 6. Seed user setting types
-php artisan db:seed --class="\Joy\VoyagerUserSettings\Database\Seeders\UserSettingsTableSeeder"
+# 6. Seed data setting types
+php artisan db:seed --class="\Joy\VoyagerDataSettings\Database\Seeders\DataSettingsTableSeeder"
 ```
 
 ---
@@ -43,11 +43,13 @@ php artisan db:seed --class="\Joy\VoyagerUserSettings\Database\Seeders\UserSetti
 
 ## Working Example
 
-You can try laravel demo here [https://joy-voyager.herokuapp.com/admin/users/1/settings](https://joy-voyager.herokuapp.com/admin/users/1/settings).
+You can try laravel demo here [https://joy-voyager.herokuapp.com/admin/users/1/settings](https://joy-voyager.herokuapp.com/admin/users/1/settings)
+OR
+[https://joy-voyager.herokuapp.com/admin/roles/1/settings](https://joy-voyager.herokuapp.com/admin/roles/1/settings).
 
 ## Documentation
 
-Find yourself stuck using the package? Found a bug? Do you have general questions or suggestions for improving the joy voyager-user-settings? Feel free to [create an issue on GitHub](https://github.com/rxcod9/joy-voyager-user-settings/issues), we'll try to address it as soon as possible.
+Find yourself stuck using the package? Found a bug? Do you have general questions or suggestions for improving the joy voyager-data-settings? Feel free to [create an issue on GitHub](https://github.com/rxcod9/joy-voyager-data-settings/issues), we'll try to address it as soon as possible.
 
 If you've found a bug regarding security please mail [gangwar.ramakant@gmail.com](mailto:gangwar.ramakant@gmail.com) instead of using the issue tracker.
 

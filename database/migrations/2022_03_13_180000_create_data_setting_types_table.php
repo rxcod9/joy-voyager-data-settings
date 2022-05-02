@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserSettingTypesTable extends Migration
+class CreateDataSettingTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,17 @@ class CreateUserSettingTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_setting_types', function (Blueprint $table) {
+        Schema::create('data_setting_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('key')->unique();
+            $table->string('data_type_slug');
+            $table->string('key');
             $table->string('display_name');
             $table->text('details')->nullable()->default(null);
             $table->string('type');
             $table->integer('order')->default('1');
             $table->string('group')->nullable();
+
+            $table->unique(['data_type_slug', 'key']);
         });
     }
 
@@ -31,6 +34,6 @@ class CreateUserSettingTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_setting_types');
+        Schema::dropIfExists('data_setting_types');
     }
 }

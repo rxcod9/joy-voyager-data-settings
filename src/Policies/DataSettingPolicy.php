@@ -1,11 +1,11 @@
 <?php
 
-namespace Joy\VoyagerUserSettings\Policies;
+namespace Joy\VoyagerDataSettings\Policies;
 
 use TCG\Voyager\Contracts\User;
 use TCG\Voyager\Policies\BasePolicy;
 
-class UserSettingPolicy extends BasePolicy
+class DataSettingPolicy extends BasePolicy
 {
     /**
      * Determine if the given user can browse the model.
@@ -17,7 +17,7 @@ class UserSettingPolicy extends BasePolicy
      */
     public function browse(User $user, $model)
     {
-        return $user->hasPermission('browse_user_settings');
+        return $user->hasPermission('browse_data_settings');
     }
 
     /**
@@ -30,7 +30,7 @@ class UserSettingPolicy extends BasePolicy
      */
     public function read(User $user, $model)
     {
-        return $user->hasPermission('read_user_settings');
+        return $user->hasPermission('read_data_settings');
     }
 
     /**
@@ -43,7 +43,7 @@ class UserSettingPolicy extends BasePolicy
      */
     public function edit(User $user, $model)
     {
-        return $user->hasPermission('edit_user_settings');
+        return $user->hasPermission('edit_data_settings');
     }
 
     /**
@@ -56,7 +56,7 @@ class UserSettingPolicy extends BasePolicy
      */
     public function add(User $user, $model)
     {
-        return $user->hasPermission('add_user_settings');
+        return $user->hasPermission('add_data_settings');
     }
 
     /**
@@ -69,6 +69,6 @@ class UserSettingPolicy extends BasePolicy
      */
     public function delete(User $user, $model)
     {
-        return $user->hasPermission('delete_user_settings');
+        return $user->hasPermission('delete_data_settings');
     }
 }

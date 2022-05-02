@@ -1,17 +1,17 @@
 <?php
 
-namespace Joy\VoyagerUserSettings\Database\Seeders;
+namespace Joy\VoyagerDataSettings\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use TCG\Voyager\Models\Permission;
 
-class UserSettingsPermissionsTableSeeder extends Seeder
+class DataSettingsPermissionsTableSeeder extends Seeder
 {
     /**
      * Auto generated seed file.
      */
     public function run()
     {
-        Permission::generateFor('user_settings');
+        Permission::generateFor('data_settings');
     }
 }
