@@ -22,8 +22,8 @@ trait DeleteValueAction
 
     public function delete_value($id, $sid, Request $request)
     {
-        $slug = $this->getSlug($request);
-        $dataType = Voyager::model('DataType')->whereSlug($slug)->firstOrFail();
+        $slug            = $this->getSlug($request);
+        $dataType        = Voyager::model('DataType')->whereSlug($slug)->firstOrFail();
         $dataTypeContent = getDataTypeContent($dataType, $id);
         // Check permission
         $this->authorize('delete', $dataTypeContent);

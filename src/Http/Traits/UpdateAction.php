@@ -22,8 +22,8 @@ trait UpdateAction
 
     public function update($id, Request $request)
     {
-        $slug = $this->getSlug($request);
-        $dataType = Voyager::model('DataType')->whereSlug($slug)->firstOrFail();
+        $slug            = $this->getSlug($request);
+        $dataType        = Voyager::model('DataType')->whereSlug($slug)->firstOrFail();
         $dataTypeContent = getDataTypeContent($dataType, $id);
         // Check permission
         $this->authorize('edit', $dataTypeContent);

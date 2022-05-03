@@ -258,7 +258,7 @@ class DataSettingsTableSeeder extends Seeder
     {
         return DataSettingType::firstOrNew([
             'data_type_slug' => $slug,
-            'key' => $key,
+            'key'            => $key,
         ]);
     }
 

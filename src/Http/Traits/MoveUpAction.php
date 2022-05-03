@@ -21,8 +21,8 @@ trait MoveUpAction
 
     public function move_up($id, $sid, Request $request)
     {
-        $slug = $this->getSlug($request);
-        $dataType = Voyager::model('DataType')->whereSlug($slug)->firstOrFail();
+        $slug            = $this->getSlug($request);
+        $dataType        = Voyager::model('DataType')->whereSlug($slug)->firstOrFail();
         $dataTypeContent = getDataTypeContent($dataType, $id);
         // Check permission
         $this->authorize('edit', $dataTypeContent);
