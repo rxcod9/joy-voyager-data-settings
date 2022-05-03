@@ -33,11 +33,12 @@ trait DeleteAction
             Voyager::model('DataSetting'),
         );
 
-        $setting = Voyager::model('DataSetting')->whereDataId((int) $id)->whereDataSettingTypeId((int) $sid)->firstOrFail();
+        $settingType = Voyager::model('DataSettingType')->whereKey((int) $sid)->firstOrFail();
 
-        Voyager::model('DataSetting')->whereDataId($id)->delete($sid);
+        Voyager::model('DataSettingType')->destroy($sid);
+        Voyager::model('DataSetting')->whereDataId($id)->whereDataSettingTypeId($sid)->delete();
 
-        request()->session()->flash('data_setting_tab', $setting->dataSettingType->group);
+        request()->session()->flash('data_setting_tab', $settingType->group);
 
         return back()->with([
             'message'    => __('voyager::settings.successfully_deleted'),

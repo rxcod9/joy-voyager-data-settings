@@ -20,7 +20,7 @@ class CreateDataSettingsTable extends Migration
             // $table->foreign('data_id')->references('id')->on('datas');
 
             $table->integer('data_setting_type_id')->unsigned();
-            $table->foreign('data_setting_type_id')->references('id')->on('data_setting_types');
+            $table->foreign('data_setting_type_id')->references('id')->on('data_setting_types')->onUpdate('cascade')->onDelete('cascade');
 
             $table->text('value')->nullable();
         });
