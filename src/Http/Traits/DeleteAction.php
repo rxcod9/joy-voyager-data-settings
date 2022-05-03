@@ -35,7 +35,7 @@ trait DeleteAction
 
         $setting = Voyager::model('DataSetting')->whereDataId((int) $id)->whereDataSettingTypeId((int) $sid)->firstOrFail();
 
-        Voyager::model('DataSetting')->whereDataId($id)->destroy($sid);
+        Voyager::model('DataSetting')->whereDataId($id)->delete($sid);
 
         request()->session()->flash('data_setting_tab', $setting->dataSettingType->group);
 
