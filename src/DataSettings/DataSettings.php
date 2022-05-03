@@ -37,8 +37,8 @@ class DataSettings
             $settingTypes = Voyager::model('DataSettingType')->whereDataTypeSlug($dataType->slug)->orderBy('order')->get();
             $settings     = Voyager::model('DataSetting')->whereDataId($dataTypeContent->getKey())->get();
             foreach ($settingTypes as $settingType) {
-                $setting                                  = $settings->where('data_setting_type_id', $settingType->id)->first();
-                $keys                                     = explode('.', $settingType->key);
+                $setting                                                                                            = $settings->where('data_setting_type_id', $settingType->id)->first();
+                $keys                                                                                               = explode('.', $settingType->key);
                 @self::$setting_cache[$settingType->data_type_slug][$dataTypeContent->getKey()][$keys[0]][$keys[1]] = optional($setting)->value ?? null;
 
                 if ($globalCache) {
