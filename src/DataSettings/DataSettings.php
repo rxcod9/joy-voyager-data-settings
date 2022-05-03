@@ -50,9 +50,9 @@ class DataSettings
         $parts = explode('.', $key);
 
         if (count($parts) == 2) {
-            return @self::$setting_cache[$settingType->data_type_slug][$dataTypeContent->getKey()][$parts[0]][$parts[1]] ?: $default;
+            return @self::$setting_cache[$dataType->slug][$dataTypeContent->getKey()][$parts[0]][$parts[1]] ?: $default;
         } else {
-            return @self::$setting_cache[$settingType->data_type_slug][$dataTypeContent->getKey()][$parts[0]] ?: $default;
+            return @self::$setting_cache[$dataType->slug][$dataTypeContent->getKey()][$parts[0]] ?: $default;
         }
     }
 }
