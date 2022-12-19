@@ -33,7 +33,7 @@ trait DeleteAction
             Voyager::model('DataSetting'),
         );
 
-        $settingType = Voyager::model('DataSettingType')->whereKey((int) $sid)->firstOrFail();
+        $settingType = Voyager::model('DataSettingType')->whereKey($sid)->firstOrFail();
 
         Voyager::model('DataSettingType')->destroy($sid);
         Voyager::model('DataSetting')->whereDataId($id)->whereDataSettingTypeId($sid)->delete();

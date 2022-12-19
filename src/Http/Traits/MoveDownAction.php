@@ -33,7 +33,7 @@ trait MoveDownAction
             Voyager::model('DataSetting'),
         );
 
-        $setting     = Voyager::model('DataSetting')->whereDataId((int) $id)->whereDataSettingTypeId((int) $sid)->firstOrFail();
+        $setting     = Voyager::model('DataSetting')->whereDataId($id)->whereDataSettingTypeId($sid)->firstOrFail();
         $settingType = $setting->dataSettingType;
 
         // Check permission

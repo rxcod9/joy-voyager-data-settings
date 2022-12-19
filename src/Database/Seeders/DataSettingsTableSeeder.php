@@ -256,7 +256,7 @@ class DataSettingsTableSeeder extends Seeder
      */
     protected function findSettingType($slug, $key)
     {
-        return DataSettingType::firstOrNew([
+        return Voyager::model('DataSettingType')->firstOrNew([
             'data_type_slug' => $slug,
             'key' => $key,
         ]);
@@ -271,6 +271,6 @@ class DataSettingsTableSeeder extends Seeder
      */
     protected function findSetting($key)
     {
-        return DataSetting::firstOrNew(['key' => $key]);
+        return Voyager::model('DataSetting')->firstOrNew(['key' => $key]);
     }
 }

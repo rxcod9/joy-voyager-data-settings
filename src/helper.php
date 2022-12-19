@@ -18,7 +18,7 @@ use TCG\Voyager\Models\DataType;
 if (!function_exists('dataSetting')) {
     function dataSetting(DataType $dataType, Model $dataTypeContent, $key, $default = null)
     {
-        return DataSettings::dataSetting($dataType, $dataTypeContent, $key, $default);
+        return Voyager::model('DataSettings')->dataSetting($dataType, $dataTypeContent, $key, $default);
     }
 }
 

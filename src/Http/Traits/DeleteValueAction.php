@@ -28,7 +28,7 @@ trait DeleteValueAction
         // Check permission
         $this->authorize('delete', $dataTypeContent);
 
-        $setting = Voyager::model('DataSetting')->whereDataId((int) $id)->whereDataSettingTypeId((int) $sid)->firstOrFail();
+        $setting = Voyager::model('DataSetting')->whereDataId($id)->whereDataSettingTypeId($sid)->firstOrFail();
 
         // Check permission
         $this->authorize(
