@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use Joy\VoyagerDataSettings\DataSettings\DataSettings;
 use TCG\Voyager\Models\DataType;
 
 // if (! function_exists('joyVoyagerDataSettings')) {

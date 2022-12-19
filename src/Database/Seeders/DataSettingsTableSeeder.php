@@ -3,8 +3,6 @@
 namespace Joy\VoyagerDataSettings\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Joy\VoyagerDataSettings\Models\DataSetting;
-use Joy\VoyagerDataSettings\Models\DataSettingType;
 use TCG\Voyager\Facades\Voyager;
 
 class DataSettingsTableSeeder extends Seeder
