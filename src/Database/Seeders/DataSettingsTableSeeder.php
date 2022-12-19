@@ -258,7 +258,7 @@ class DataSettingsTableSeeder extends Seeder
     {
         return Voyager::model('DataSettingType')->firstOrNew([
             'data_type_slug' => $slug,
-            'key' => $key,
+            'key'            => $key,
         ]);
     }
 
