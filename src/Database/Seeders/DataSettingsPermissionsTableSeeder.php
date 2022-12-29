@@ -4,7 +4,6 @@ namespace Joy\VoyagerDataSettings\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use TCG\Voyager\Facades\Voyager;
-use TCG\Voyager\Models\Permission;
 
 class DataSettingsPermissionsTableSeeder extends Seeder
 {
